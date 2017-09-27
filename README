@@ -1,0 +1,5 @@
+```
+clone repo
+make
+./out $WORDS_FILE
+```
