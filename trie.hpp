@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_set>
 #include "optional.hpp"
+#include <iostream>
 
 struct TrieNode {
     std::experimental::optional<std::string> word;
@@ -17,11 +18,12 @@ private:
 public:
     std::unordered_set<char> _unique_chars;
     Trie() 
-        : _root(), 
+        : _root(),
           _num_words(), 
-          _num_nodes(1) 
+          _num_nodes(1)
     {}
     bool contains(const std::string & str) const;
+    bool contains_prefix(const std::string & str) const;
     void insert(const std::string & str);
     size_t num_words() const { return _num_words; }
     size_t num_nodes() const { return _num_nodes; }

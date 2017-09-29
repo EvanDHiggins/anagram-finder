@@ -2,7 +2,6 @@
 #include <stack>
 #include <sstream>
 #include <iostream>
-#include "prettyprint.hpp"
 
 void Trie::insert(const std::string & str) {
     std::istringstream remaining(str);
@@ -32,19 +31,34 @@ void Trie::insert(const std::string & str) {
 
 bool Trie::contains(const std::string & str) const {
     std::istringstream remaining(str);
-    TrieNode currNode = this->_root;
+    const TrieNode *currNode = &this->_root;
     while(true) {
         if(!remaining) {
-            return currNode.word ? currNode.word.value() == str : false;
+            return currNode->word ? currNode->word.value() == str : false;
         }
         char c;
         remaining >> c;
-        if(currNode.nextNodes.find(c) != end(currNode.nextNodes)) {
-            currNode = currNode.nextNodes[c];
+        if(currNode->nextNodes.find(c) != end(currNode->nextNodes)) {
+            currNode = &currNode->nextNodes.at(c);
         } else {
-            std:: cout << c << std::endl;
             return false;
         }
     }
 }
 
+bool Trie::contains_prefix(const std::string & str) const {
+    std::istringstream remaining(str);
+    const TrieNode *currNode = &this->_root;
+    while(true) {
+        if(!remaining) {
+            return true;
+        }
+        char c;
+        remaining >> c;
+        if(currNode->nextNodes.find(c) != end(currNode->nextNodes)) {
+            currNode = &currNode->nextNodes.at(c);
+        } else {
+            return false;
+        }
+    }
+}
